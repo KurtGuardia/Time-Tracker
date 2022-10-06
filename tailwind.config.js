@@ -10,7 +10,6 @@ module.exports = {
       black: '#1a202c',
       red: '#FF0055',
       pink: '#FFC1AF',
-      blue: '#1fb6ff',
       green: '#5EBEA3',
       gray: '#3F3F3F',
       'gray-light': '#dfdfdf',
@@ -37,13 +36,6 @@ module.exports = {
     extend: {
       backgroundImage: {
         sesame: "url('/src/assets/icon.svg')",
-      },
-      spacing: {
-        '8xl': '96rem',
-        '9xl': '128rem',
-      },
-      borderRadius: {
-        '4xl': '2rem',
       },
     },
   },
