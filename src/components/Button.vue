@@ -1,7 +1,7 @@
 <template>
     <button
         :class="backgroundColor"
-        class='text-white p-2 px-10 text-gray-light font-semibold rounded-full w-max hover:scale-105 transition-all'
+        class='p-1 px-14 text-gray-light font-semibold rounded-full w-max hover:scale-105 transition-all'
     >{{name}}</button>
 </template>
 
