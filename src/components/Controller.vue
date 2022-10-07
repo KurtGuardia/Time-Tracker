@@ -49,6 +49,9 @@
             <Dropdown
                 v-if="showDropdown"
                 class="absolute top-6 -right-20 p-9"
+                :firstName="firstName"
+                :lastName="lastName"
+                :email="employee.email"
             />
         </div>
     </div>

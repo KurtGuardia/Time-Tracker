@@ -1,10 +1,18 @@
 <template>
     <div class="timer">
-        <span class="hour">{{hours}}</span>
+        {{hours}}
         :
-        <span class="minutes">{{minutes}}</span>
+        {{minutes}}
         :
-        <span class="seconds">{{seconds}}</span>
+        {{seconds}}
+        <small v-if="this.timeWorked()[5]">/
+            {{this.timeWorked()[3] }}
+            :
+            {{this.timeWorked()[4] }}
+            :
+            {{this.timeWorked()[5] }}
+        </small>
+
     </div>
 </template>
 
@@ -56,9 +64,9 @@ export default {
                 this.min = mins < 10 ? "0" + mins : mins;
                 this.sec = sec < 10 ? "0" + sec : sec;
             }, 1000 )
-
         },
         timeWorked () {
+            // For current woking hours
             const start = new Date( this.entryHour ).getTime()
             const end = new Date( this.exitHour ).getTime()
             let diff = end - start
@@ -67,7 +75,18 @@ export default {
             const minutes = parseInt( diff / 1000 / 60 );
             diff -= minutes * 60 * 1000
             const seconds = parseInt( diff / 1000 );
-            return [hours, minutes, seconds]
+
+            // For remaning working hours
+            const now = new Date().getTime()
+            let timeLeft = start + ( 8 * 3600000 ) - now
+            const hoursLeft = parseInt( timeLeft / 1000 / 60 / 60 );
+            timeLeft -= hoursLeft * 60 * 60 * 1000
+            const minutesLeft = parseInt( timeLeft / 1000 / 60 );
+            timeLeft -= minutesLeft * 60 * 1000
+            const secondsLeft = parseInt( timeLeft / 1000 );
+            console.log( secondsLeft )
+
+            return [hours, minutes, seconds, hoursLeft, minutesLeft, secondsLeft]
         }
     },
     computed: {
@@ -78,7 +97,7 @@ export default {
             return this.timeWorked()[1] ? this.timeWorked()[1] : this.min
         },
         seconds () {
-            return this.timeWorked()[2] ? this.timeWorked()[2] : this.sec
+            return this.timeWorked()[2] ? this.timeWorked()[2] < 10 ? "0" + this.timeWorked()[2] : this.timeWorked()[2] : this.sec
         }
     },
     watch: {
