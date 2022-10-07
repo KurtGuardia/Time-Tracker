@@ -94,7 +94,7 @@ export default {
             return this.timeWorked()[0] ? this.timeWorked()[0] : this.hrs
         },
         minutes () {
-            return this.timeWorked()[1] ? this.timeWorked()[1] : this.min
+            return this.timeWorked()[1] ? this.timeWorked()[1] < 10 ? "0" + this.timeWorked()[1] : this.timeWorked()[1] : this.min
         },
         seconds () {
             return this.timeWorked()[2] ? this.timeWorked()[2] < 10 ? "0" + this.timeWorked()[2] : this.timeWorked()[2] : this.sec

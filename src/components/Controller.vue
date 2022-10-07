@@ -97,7 +97,7 @@ export default {
                 }
             }, {
                 headers: {
-                    "Authorization": "Bearer 16e2f0694a311151c01aa0a131b94a5a3ad7f110e12c2d8f459fcbb158214f5f"
+                    "Authorization": "Bearer " + `${process.env.VUE_APP_BEARER_TOKEN}`
                 }
             } ).then( response => { this.entryHour = response.data.data.workEntryIn.date; this.workStatus = response.data.data.employee.workStatus } )
         },
@@ -112,7 +112,7 @@ export default {
                 }
             }, {
                 headers: {
-                    "Authorization": "Bearer 16e2f0694a311151c01aa0a131b94a5a3ad7f110e12c2d8f459fcbb158214f5f"
+                    "Authorization": "Bearer " + `${process.env.VUE_APP_BEARER_TOKEN}`
                 }
             } ).then( response => { this.exitHour = response.data.data.workEntryOut.date; this.workStatus = response.data.data.employee.workStatus } )
         }
