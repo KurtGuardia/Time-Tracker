@@ -35,11 +35,22 @@
             status="exit"
         />
         <Avatar :status="workStatusUpdated" />
-        <p class="tracking-widest">{{firstName}}
-            {{lastName}}
-        </p>
-        <span class="rotate-90 text-gray text-2xl">
-            ></span>
+        <div
+            class="dropdown group flex items-center gap-3 relative"
+            @mouseover="this.showDropdown = true"
+            @mouseleave="this.showDropdown = false"
+        >
+            <p class="tracking-widest">{{firstName}}
+                {{lastName}}
+            </p>
+            <span class="rotate-90 text-gray text-2xl">
+                &#8250;
+            </span>
+            <Dropdown
+                v-if="showDropdown"
+                class="absolute top-6 -right-20 p-9"
+            />
+        </div>
     </div>
 </template>
 
@@ -48,6 +59,7 @@ import Button from './Button.vue';
 import Avatar from './Avatar.vue';
 import Timer from './Timer.vue';
 import axios from 'axios';
+import Dropdown from './Dropdown.vue';
 
 export default {
     name: "ControllerComponent",
@@ -57,7 +69,7 @@ export default {
             required: true
         }
     },
-    components: { Button, Avatar, Timer },
+    components: { Button, Avatar, Timer, Dropdown },
     data () {
         return {
             count: false,
@@ -65,7 +77,8 @@ export default {
             exitHour: "",
             workStatus: null,
             pause: false,
-            disabled: false
+            disabled: false,
+            showDropdown: false
         }
     },
     methods: {
@@ -128,5 +141,9 @@ export default {
 .controller .disabled {
     pointer-events: none;
     filter: brightness(0.5);
+}
+
+.controller .dropdown {
+    border-bottom: 2px dotted #afafaf;
 }
 </style>
