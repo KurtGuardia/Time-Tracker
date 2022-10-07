@@ -10,8 +10,12 @@
             flex gap-8 items-center
             w-max
         ">
-        <Timer :count="count" />
-        {{employee.workStatus}}
+        <Timer
+            :pause="this.pause"
+            :count="this.count"
+            :entryHour="entryHour"
+            :exitHour="exitHour"
+        />
         <Button
             v-if="workStatusUpdated === 'offline'"
             @click="this.postIn"
@@ -20,10 +24,13 @@
         />
         <Button
             v-if="workStatusUpdated === 'online'"
+            @click="this.pause = true"
             name="Pausar"
+            :class="{disabled: this.pause}"
         />
         <Button
             v-if="workStatusUpdated === 'online'"
+            @click="this.postOut"
             name="Salir"
             status="exit"
         />
@@ -54,8 +61,11 @@ export default {
     data () {
         return {
             count: false,
-            enterHour: "",
-            workStatus: null
+            entryHour: "",
+            exitHour: "",
+            workStatus: null,
+            pause: false,
+            disabled: false
         }
     },
     methods: {
@@ -73,7 +83,22 @@ export default {
                 headers: {
                     "Authorization": "Bearer 16e2f0694a311151c01aa0a131b94a5a3ad7f110e12c2d8f459fcbb158214f5f"
                 }
-            } ).then( response => { this.enterHour = response.data.data.workEntryIn.date; this.workStatus = response.data.data.employee.workStatus } )
+            } ).then( response => { this.entryHour = response.data.data.workEntryIn.date; this.workStatus = response.data.data.employee.workStatus } )
+        },
+        postOut () {
+            axios.post( 'https://api-test.sesametime.com/schedule/v1/work-entries/clock-out', {
+                "employeeId": this.employee.id,
+                "workEntryIn": {
+                    "coordinates": {
+                        "latitude": 39.9810198,
+                        "longitude": -0.0292415
+                    }
+                }
+            }, {
+                headers: {
+                    "Authorization": "Bearer 16e2f0694a311151c01aa0a131b94a5a3ad7f110e12c2d8f459fcbb158214f5f"
+                }
+            } ).then( response => { this.exitHour = response.data.data.workEntryOut.date; this.workStatus = response.data.data.employee.workStatus } )
         }
     },
     computed: {
@@ -100,14 +125,8 @@ export default {
     border-left: 2px solid #bfbfbf;
 }
 
-.dropdown-arrow {
-    height: 0;
-    width: 0;
-    border-left: 10px solid transparent;
-    border-right: 10px solid transparent;
-    border-top: 10px solid #333;
-    position: relative;
-    top: 45px;
-    left: 350px;
+.controller .disabled {
+    pointer-events: none;
+    filter: brightness(0.5);
 }
 </style>
